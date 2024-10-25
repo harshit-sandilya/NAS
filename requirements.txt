@@ -6,3 +6,5 @@ protobuf==3.20.2
 pytest
 pybind11
 lightning
+stable_baselines3
+deepspeed
