@@ -1,0 +1,19 @@
+{
+  "chunks": [
+    {
+      "chunk_bytes": 65666336,
+      "chunk_size": 16322,
+      "dim": 16416584,
+      "filename": "chunk-0-43.bin"
+    }
+  ],
+  "config": {
+    "chunk_bytes": null,
+    "chunk_size": 16322,
+    "compression": null,
+    "data_format": ["no_header_tensor:16"],
+    "data_spec": "[1, {\"type\": null, \"context\": null, \"children_spec\": []}]",
+    "encryption": null,
+    "item_loader": "TokensLoader"
+  }
+}

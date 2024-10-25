@@ -1,0 +1,101 @@
+from pytorch_lightning import Trainer
+from pytorch_lightning.loggers import Logger
+from pytorch_lightning.profilers import Profiler
+from pytorch_lightning.callbacks import Callback
+from pytorch_lightning.accelerators import Accelerator
+from pytorch_lightning.strategies import Strategy
+from datetime import timedelta
+from typing import Union, Optional, List, Iterable, Dict
+from lightning.pytorch.trainer.connectors.accelerator_connector import (
+    _LITERAL_WARN,
+    _PRECISION_INPUT,
+)
+from lightning.pytorch.plugins import _PLUGIN_INPUT
+from lightning.fabric.utilities.types import _PATH
+
+
+class Trainer(Trainer):
+    def __init__(
+        self,
+        *,
+        accelerator: Union[str, Accelerator] = "auto",
+        strategy: Union[str, Strategy] = "auto",
+        devices: Union[List[int], str, int] = "auto",
+        num_nodes: int = 1,
+        precision: Optional[_PRECISION_INPUT] = None,
+        logger: Optional[Union[Logger, Iterable[Logger], bool]] = None,
+        callbacks: Optional[Union[List[Callback], Callback]] = None,
+        fast_dev_run: Union[int, bool] = False,
+        max_epochs: Optional[int] = None,
+        min_epochs: Optional[int] = None,
+        max_steps: int = -1,
+        min_steps: Optional[int] = None,
+        max_time: Optional[Union[str, timedelta, Dict[str, int]]] = None,
+        limit_train_batches: Optional[Union[int, float]] = None,
+        limit_val_batches: Optional[Union[int, float]] = None,
+        limit_test_batches: Optional[Union[int, float]] = None,
+        limit_predict_batches: Optional[Union[int, float]] = None,
+        overfit_batches: Union[int, float] = 0.0,
+        val_check_interval: Optional[Union[int, float]] = None,
+        check_val_every_n_epoch: Optional[int] = 1,
+        num_sanity_val_steps: Optional[int] = None,
+        log_every_n_steps: Optional[int] = None,
+        enable_checkpointing: Optional[bool] = None,
+        enable_progress_bar: Optional[bool] = None,
+        enable_model_summary: Optional[bool] = None,
+        accumulate_grad_batches: int = 1,
+        gradient_clip_val: Optional[Union[int, float]] = None,
+        gradient_clip_algorithm: Optional[str] = None,
+        deterministic: Optional[Union[bool, _LITERAL_WARN]] = None,
+        benchmark: Optional[bool] = None,
+        inference_mode: bool = True,
+        use_distributed_sampler: bool = True,
+        profiler: Optional[Union[Profiler, str]] = None,
+        detect_anomaly: bool = False,
+        barebones: bool = False,
+        plugins: Optional[Union[_PLUGIN_INPUT, List[_PLUGIN_INPUT]]] = None,
+        sync_batchnorm: bool = False,
+        reload_dataloaders_every_n_epochs: int = 0,
+        default_root_dir: Optional[_PATH] = None,
+    ) -> None:
+        super().__init__(
+            accelerator=accelerator,
+            strategy=strategy,
+            devices=devices,
+            num_nodes=num_nodes,
+            precision=precision,
+            logger=logger,
+            callbacks=callbacks,
+            fast_dev_run=fast_dev_run,
+            max_epochs=max_epochs,
+            min_epochs=min_epochs,
+            max_steps=max_steps,
+            min_steps=min_steps,
+            max_time=max_time,
+            limit_train_batches=limit_train_batches,
+            limit_val_batches=limit_val_batches,
+            limit_test_batches=limit_test_batches,
+            limit_predict_batches=limit_predict_batches,
+            overfit_batches=overfit_batches,
+            val_check_interval=val_check_interval,
+            check_val_every_n_epoch=check_val_every_n_epoch,
+            num_sanity_val_steps=num_sanity_val_steps,
+            log_every_n_steps=log_every_n_steps,
+            enable_checkpointing=enable_checkpointing,
+            enable_progress_bar=enable_progress_bar,
+            enable_model_summary=enable_model_summary,
+            accumulate_grad_batches=accumulate_grad_batches,
+            gradient_clip_val=gradient_clip_val,
+            gradient_clip_algorithm=gradient_clip_algorithm,
+            deterministic=deterministic,
+            benchmark=benchmark,
+            inference_mode=inference_mode,
+            use_distributed_sampler=use_distributed_sampler,
+            profiler=profiler,
+            detect_anomaly=detect_anomaly,
+            barebones=barebones,
+            plugins=plugins,
+            sync_batchnorm=sync_batchnorm,
+            reload_dataloaders_every_n_epochs=reload_dataloaders_every_n_epochs,
+            default_root_dir=default_root_dir,
+        )

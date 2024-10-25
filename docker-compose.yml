@@ -1,0 +1,21 @@
+version: '3'
+services:
+  framework-instance:
+    image: framework-test
+    privileged: true
+    network_mode: host
+    shm_size: 2g
+    ulimits:
+      memlock: -1
+      stack: 67108864
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    ports:
+      - 6006:6006
+    command: ["python", "train.py"]

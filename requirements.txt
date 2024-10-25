@@ -1,0 +1,8 @@
+torchmetrics
+pytorch_lightning
+tensorboard
+sentencepiece
+protobuf==3.20.2
+pytest
+pybind11
+lightning
