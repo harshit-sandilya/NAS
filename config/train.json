@@ -1,31 +1,30 @@
 {
-  "train_bin_path" : "./datasets/slimpajama_1B_bin_streamloader/train",
-  "test_bin_path" : "./datasets/slimpajama_1B_bin_streamloader/test",
-  "validate_bin_path" : "./datasets/slimpajama_1B_bin_streamloader/val",
-  
-  "batch_size": 8, 
-  "context_length": 2048,  
-  "embedding_dimension": 512,  
-  "num_heads": 8, 
-  "num_layers": 6, 
-  
+  "train_bin_path": "./dataset/train",
+  "test_bin_path": "./dataset/test",
+  "validate_bin_path": "./dataset/val",
 
-  "activation_fn" : "gelu",
+  "batch_size": 8,
+  "context_length": 2048,
+  "embedding_dimension": 512,
+  "num_heads": 8,
+  "num_layers": 6,
 
-  "positional_encoding" : "learned",
+  "activation_fn": "gelu",
 
-  "decoder_architechture" : "gpt_j_residual",
-  "LinearZeroMean" : false,
-  "norm_type" : "layernorm",
+  "positional_encoding": "learned",
+
+  "decoder_architechture": "gpt_j_residual",
+  "LinearZeroMean": false,
+  "norm_type": "layernorm",
   "norm_eps": 1.0e-5,
 
-  "dropout": 0.0, 
-  
-  "lr": 0.001,  
-  "T_0": 100000, 
-  "T_mult": 50,  
-  "eta_min": 1e-6,  
-  "decay": 0.75, 
+  "dropout": 0.0,
+
+  "lr": 0.001,
+  "T_0": 100000,
+  "T_mult": 50,
+  "eta_min": 1e-6,
+  "decay": 0.75,
 
   "min_epochs": 1,
   "max_epochs": 100,
@@ -36,9 +35,6 @@
   "gpu_cores": 1,
   "precision": "bf16-mixed",
 
-  
-
-  "gradient_clip_val" : 1,
-  "devices" :1
-
+  "gradient_clip_val": 1,
+  "devices": 1
 }
