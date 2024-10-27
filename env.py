@@ -26,7 +26,7 @@ class Environment(gym.Env):
         self.current_chunk += 1
         done = self.current_chunk == len(self.train_file_list) - 1
         info = {}
-        return self.chunk_sizes[self.current_chunk], reward, done, info
+        return self.chunk_sizes[self.current_chunk], reward, done, False, info
 
     def calc_reward(self, action):
         print("NO OF LAYERS ===> ", action[0])
