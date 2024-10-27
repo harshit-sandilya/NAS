@@ -4,6 +4,8 @@ import numpy as np
 from train import train_model
 import torch
 
+rewards = []
+
 
 class Environment(gym.Env):
     def __init__(self, train_file_list, chunk_sizes):
@@ -34,6 +36,9 @@ class Environment(gym.Env):
         with torch.no_grad():
             torch.cuda.empty_cache()
         reward = 200 - loss * 10 - action[0] - action[1]
+        rewards.append(reward)
+        tensor = torch.tensor(rewards)
+        torch.save(tensor, "rewards.pt")
         print("REWARD ===> ", reward)
         print("LOSS ===> ", loss)
         return reward
