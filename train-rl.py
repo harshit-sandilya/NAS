@@ -35,5 +35,5 @@ checkpoint_callback = CheckpointCallback(
 env = Environment(train_file_list, chunk_sizes)
 model = DDPG("MlpPolicy", env, verbose=1, tensorboard_log="logs/ddpg")
 model.load("ddpg_transformer")
-model.learn(total_timesteps=50, callback=[TensorboardCallback(), checkpoint_callback])
+model.learn(total_timesteps=1000, callback=[TensorboardCallback(), checkpoint_callback])
 model.save("ddpg_transformer")
