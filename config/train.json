@@ -28,7 +28,7 @@
 
   "min_epochs": 1,
   "max_epochs": 100,
-  "max_iterations": 50,
+  "max_iterations": 100,
   "eval_every": 5000,
   "weight_decay": 0.1,
   "log_steps": 10,
