@@ -5,8 +5,8 @@ from train import train_model
 import torch
 
 rewards = []
-# rewards = torch.load("rewards.pt")
-# rewards = rewards.tolist()
+rewards = torch.load("rewards.pt")
+rewards = rewards.tolist()
 
 
 class Environment(gym.Env):
