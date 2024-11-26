@@ -56,7 +56,7 @@ def train_model(action, train_folder):
         log_every_n_steps=config.train["log_steps"],
         strategy=strategy,
         logger=logger,
-        profiler=profiler,
+        # profiler=profiler,
         callbacks=[lr_monitor, checkpoint],
         gradient_clip_val=config.train["gradient_clip_val"],
     )
