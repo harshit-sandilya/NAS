@@ -30,11 +30,14 @@ class Environment(gym.Env):
         info = {}
         return self.chunk_sizes[self.current_chunk], reward, done, False, info
 
-    def calc_reward(self, action):
+    def calc_reward(self, action, chunk=None):
         print("NO OF LAYERS ===> ", int(action[0]))
         print("NO OF HEADS ===> ", int(action[1]))
         print("CHUNK SIZE ===> ", self.chunk_sizes[self.current_chunk])
-        loss = train_model(action, self.train_file_list[self.current_chunk])
+        if chunk is None:
+            loss = train_model(action, self.train_file_list[self.current_chunk])
+        else:
+            loss = train_model(action, chunk)
         with torch.no_grad():
             torch.cuda.empty_cache()
         reward = 200 - loss * 10 - action[0] - action[1]
