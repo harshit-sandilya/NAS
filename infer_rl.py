@@ -34,22 +34,16 @@ checkpoint_callback = CheckpointCallback(
 env = Environment(train_file_list, chunk_sizes)
 
 # Load or initialize the model
-model = DDPG.load("ddpg_transformer_100", env=env)  # Load the pre-trained model
+model = DDPG.load("ddpg_transformer_100")  # Load the pre-trained model
 
 # Test the model
 test_chunk_size = 15749
 observation, _ = env.reset(
     test_chunk_size
 )  # Reset the environment with the test chunk size
-done = False
-while not done:
-    # Predict action based on the current observation
-    action, _states = model.predict(observation, deterministic=True)
-    print(f"Action: {action}")
 
-    # Step the environment
-    observation, reward, done, _, info = env.step(action)
-    print(f"Reward: {reward}, Done: {done}")
+action, _states = model.predict(observation, deterministic=True)
+print(f"Predicted action for test_chunk_size {test_chunk_size}: {action}")
 
 # Optional: Train the model further
 # Uncomment the lines below if you want to continue training
