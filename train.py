@@ -23,7 +23,7 @@ def train_model(action, train_folder):
     config.train["train_bin_path"] = train_folder
 
     print("+++++++++++++++++CONFIG+++++++++++++++++")
-    print(config)
+    print(config.train)
 
     start_time = measure_time()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

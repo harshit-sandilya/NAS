@@ -35,7 +35,7 @@ env = Environment(train_file_list, chunk_sizes)
 # Load or initialize the model
 model = DDPG.load("ddpg_transformer_100")  # Load the pre-trained model
 
-chunk_file = "dataset/train-52"
+chunk_file = "dataset/train-51"
 observation, _ = env.reset()
 observation, reward, done, _, info = env.step(action, chunk_file)
 print("Reward: ", reward)
