@@ -43,7 +43,8 @@ observation, _ = env.reset(
 )  # Reset the environment with the test chunk size
 
 action, _states = model.predict(observation, deterministic=True)
-print(f"Predicted action for test_chunk_size {test_chunk_size}: {int(action)}")
+action = int(action)
+print(f"Predicted action for test_chunk_size {test_chunk_size}: {action}")
 
 # Optional: Train the model further
 # Uncomment the lines below if you want to continue training
