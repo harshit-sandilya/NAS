@@ -38,7 +38,7 @@ model = DDPG.load("ddpg_transformer_100", env=env)  # Load the pre-trained model
 
 # Test the model
 test_chunk_size = 15749
-observation = env.reset(
+observation, _ = env.reset(
     test_chunk_size
 )  # Reset the environment with the test chunk size
 done = False
