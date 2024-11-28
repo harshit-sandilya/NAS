@@ -23,8 +23,8 @@ class Environment(gym.Env):
         self.current_chunk = 0
         return self.chunk_sizes[0], {}
 
-    def step(self, action):
-        reward = self.calc_reward(action)
+    def step(self, action, chunk=None):
+        reward = self.calc_reward(action, chunk)
         self.current_chunk += 1
         done = self.current_chunk == len(self.train_file_list) - 1
         info = {}
