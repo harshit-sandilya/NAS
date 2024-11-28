@@ -48,7 +48,7 @@ while not done:
     print(f"Action: {action}")
 
     # Step the environment
-    observation, reward, done, info = env.step(action)
+    observation, reward, done, _, info = env.step(action)
     print(f"Reward: {reward}, Done: {done}")
 
 # Optional: Train the model further

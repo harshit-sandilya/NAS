@@ -31,8 +31,8 @@ class Environment(gym.Env):
         return self.chunk_sizes[self.current_chunk], reward, done, False, info
 
     def calc_reward(self, action):
-        print("NO OF LAYERS ===> ", action[0])
-        print("NO OF HEADS ===> ", action[1])
+        print("NO OF LAYERS ===> ", int(action[0]))
+        print("NO OF HEADS ===> ", int(action[1]))
         print("CHUNK SIZE ===> ", self.chunk_sizes[self.current_chunk])
         loss = train_model(action, self.train_file_list[self.current_chunk])
         with torch.no_grad():
