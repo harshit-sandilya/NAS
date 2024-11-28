@@ -1,6 +1,7 @@
 logs/
 
 ddpg_transformer.zip
+ddpg_transformer_100.zip
 
 output.log
 output2.log
