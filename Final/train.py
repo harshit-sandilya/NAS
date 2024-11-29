@@ -25,7 +25,6 @@ def measure_time(start_time=None):
 
 
 def train_model(action, train_folder):
-    if __name__ == "__main__":
     torch.set_float32_matmul_precision("high")
     lr_monitor = LearningRateMonitor(logging_interval="step")
     config = Config()
