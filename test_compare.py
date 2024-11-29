@@ -2,7 +2,7 @@ import torch
 from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
 from model import Transformer
-from config_reader import Config
+from FInal.config_reader import Config
 
 
 def init_weights(m, seed=42):
@@ -61,11 +61,11 @@ if __name__ == "__main__":
     # y_train = [torch.tensor(1)]
 
     x_train = [
-                torch.tensor([1, 2, 3, 2, 3]), 
-               torch.tensor([3, 2, 1, 3, 2]),
-               torch.tensor([2, 3, 1, 2, 3])
-               ]
-    y_train = [torch.tensor(1), torch.tensor(1),torch.tensor(1)]
+        torch.tensor([1, 2, 3, 2, 3]),
+        torch.tensor([3, 2, 1, 3, 2]),
+        torch.tensor([2, 3, 1, 2, 3]),
+    ]
+    y_train = [torch.tensor(1), torch.tensor(1), torch.tensor(1)]
 
     dataset = TensorDataset(torch.stack(x_train), torch.stack(y_train))
 

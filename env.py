@@ -1,7 +1,7 @@
 import gymnasium as gym
 from gymnasium import spaces
 import numpy as np
-from train import train_model
+from FInal.train import train_model
 import torch
 
 rewards = []
