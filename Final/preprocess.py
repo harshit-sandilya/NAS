@@ -25,7 +25,7 @@ class DataModule(pl.LightningDataModule):
             shuffle=False,
             subsample=random_float,
         )
-        self.val = self.train = StreamingDataset(
+        self.val = StreamingDataset(
             input_dir=self.train_config["train_bin_path"],
             item_loader=TokensLoader(
                 block_size=self.train_config["context_length"] + 1
