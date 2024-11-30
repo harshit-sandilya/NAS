@@ -1,22 +1,20 @@
-import torch
-import json
-import time
-import numpy as np
-
-from stable_baselines3 import DDPG, DQN
+import stable_baselines3
+from stable_baselines3 import DDPG
+from env import Environment
+from config_reader import Config
+from preprocess import DataModule
 from stable_baselines3.common.callbacks import BaseCallback, CheckpointCallback
 
-from Final.env import Environment
-
+config = Config()
 train_file_list = [f"dataset/train-{i}" for i in range(1, 51)]
 
-chunk_sizes = []
+dataModules = []
+entries = []
 for file in train_file_list:
-    with open(f"{file}/index.json") as f:
-        index = json.load(f)
-        chunk_sizes.append(int(index["config"]["chunk_size"]))
-
-print(chunk_sizes)
+    config.train["train_bin_path"] = file
+    dataModules.append(DataModule(config.train, config.preprocess))
+    dataModules[-1].setup()
+    entries.append(len(dataModules[-1].train))
 
 
 class TensorboardCallback(BaseCallback):
@@ -32,8 +30,7 @@ checkpoint_callback = CheckpointCallback(
     save_freq=1, save_path="./logs/", name_prefix="ddpg_nas"
 )
 
-env = Environment(train_file_list, chunk_sizes)
+env = Environment(dataModules, entries, config)
 model = DDPG("MlpPolicy", env, verbose=1, tensorboard_log="logs/ddpg")
-model.load("ddpg_transformer")
 model.learn(total_timesteps=50, callback=[TensorboardCallback(), checkpoint_callback])
 model.save("ddpg_transformer")
