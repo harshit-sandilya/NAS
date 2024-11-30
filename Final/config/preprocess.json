@@ -1,3 +1,4 @@
 {
+  "vocab_size": 32000,
   "tokenizer_path": "../tokenizer_vocabs/slimpajama_val_test_trained_bpe_tok.json"
 }
