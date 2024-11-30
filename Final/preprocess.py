@@ -24,27 +24,11 @@ class DataModule(pl.LightningDataModule):
             shuffle=False,
             subsample=self.random_float,
         )
-        self.val = StreamingDataset(
-            input_dir=self.train_config["train_bin_path"],
-            item_loader=TokensLoader(
-                block_size=self.train_config["context_length"] + 1
-            ),
-            shuffle=False,
-            subsample=0.1,
-        )
         self.test = self.train
 
     def train_dataloader(self):
         return StreamingDataLoader(
             self.train,
-            batch_size=self.train_config["batch_size"],
-            pin_memory=True,
-            num_workers=1,
-        )
-
-    def val_dataloader(self):
-        return StreamingDataLoader(
-            self.val,
             batch_size=self.train_config["batch_size"],
             pin_memory=True,
             num_workers=1,
