@@ -25,7 +25,14 @@ class DataModule(pl.LightningDataModule):
         max = len(self.train)
         min = self.train_config["context_length"] + 1
         rand = random.randint(min, max)
-        self.train = self.train[:rand]
+        self.train = StreamingDataset(
+            input_dir=self.train_config["train_bin_path"],
+            item_loader=TokensLoader(
+                block_size=self.train_config["context_length"] + 1
+            ),
+            shuffle=False,
+            max_samples=rand,
+        )
 
     def train_dataloader(self):
         return StreamingDataLoader(
