@@ -89,6 +89,7 @@ def train_model(action, train_folder):
         item = item.to(device)
         item = item.to(config.dtype)
         item = item.unsqueeze(0)
+        print(f"item shape: {item.shape}")
         loss += model.training_step(item, 0).item()
     loss /= len(dataModule.train)
 
