@@ -14,6 +14,6 @@ for file in train_file_list:
     dataModules[-1].setup()
     entries.append(len(dataModules[-1].train))
 
-print(entries)
+# print(entries)
 
-train_model([4, 4], config, dataModules[0])
+# train_model([4, 4], config, dataModules[0])
