@@ -16,7 +16,6 @@ class DataModule(pl.LightningDataModule):
     def setup(self, stage: str = None):
         self.vocab_size = self.preprocess_config["vocab_size"]
         random_float = random.uniform(0.1, 1.0)
-        print(f"Subsample fraction: {random_float}")
         self.train = StreamingDataset(
             input_dir=self.train_config["train_bin_path"],
             item_loader=TokensLoader(
@@ -40,7 +39,7 @@ class DataModule(pl.LightningDataModule):
             self.train,
             batch_size=self.train_config["batch_size"],
             pin_memory=True,
-            num_workers=4,
+            num_workers=1,
         )
 
     def val_dataloader(self):
@@ -48,7 +47,7 @@ class DataModule(pl.LightningDataModule):
             self.val,
             batch_size=self.train_config["batch_size"],
             pin_memory=True,
-            num_workers=4,
+            num_workers=1,
         )
 
     def test_dataloader(self):
@@ -56,5 +55,5 @@ class DataModule(pl.LightningDataModule):
             self.test,
             batch_size=self.train_config["batch_size"],
             pin_memory=True,
-            num_workers=4,
+            num_workers=1,
         )
