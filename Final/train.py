@@ -48,10 +48,10 @@ def train_model(action, train_folder):
         trace_memory=True,
         export_to_chrome=True,
     )
-    # if config.deepspeed is not None:
-    #     strategy = DeepSpeedStrategy(config=config.deepspeed)
-    # else:
-    #     strategy = "ddp"
+    if config.deepspeed is not None:
+        strategy = DeepSpeedStrategy(config=config.deepspeed)
+    else:
+        strategy = "ddp"
     checkpoint = ModelCheckpoint(
         monitor="val_loss",
         dirpath=f"logs/checkpoints/",
@@ -70,7 +70,7 @@ def train_model(action, train_folder):
         min_epochs=config.train["min_epochs"],
         precision=config.train["precision"],
         log_every_n_steps=config.train["log_steps"],
-        # strategy=strategy,
+        strategy=strategy,
         logger=logger,
         # profiler=profiler,
         callbacks=[lr_monitor, checkpoint],
