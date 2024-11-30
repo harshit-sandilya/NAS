@@ -56,9 +56,7 @@ def train_model(action, train_folder):
     trainer = Trainer(
         accelerator="auto",
         devices=config.train["gpu_cores"],
-        max_epochs=config.train["max_epochs"],
-        max_steps=config.train["max_iterations"],
-        min_epochs=config.train["min_epochs"],
+        max_epochs=1,
         precision=config.train["precision"],
         log_every_n_steps=config.train["log_steps"],
         strategy=strategy,

@@ -22,10 +22,6 @@
   "eta_min": 1e-6,
   "decay": 0.75,
 
-  "min_epochs": 1,
-  "max_epochs": 100,
-  "max_iterations": 100,
-  "eval_every": 5000,
   "weight_decay": 0.1,
   "log_steps": 10,
   "gpu_cores": 1,
