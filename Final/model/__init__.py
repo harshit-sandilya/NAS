@@ -158,10 +158,15 @@ class Transformer(pl.LightningModule):
     #     self.log_dict(dict_log, sync_dist=True)
     #     return loss
 
-    # def predict_step(self, x):
-    #     with torch.no_grad():
-    #         output = self.forward(x)
-    #     return output
+    def predict_step(self, batch):
+        with torch.no_grad():
+            x = batch[:, : self.contextLength]
+            y = batch[:, 1:].long()
+            output = self.forward(x)
+            loss = self.loss_fn(
+                output.reshape(output.shape[0] * output.shape[1], self.vocabSize), y
+            )
+        return loss
 
     def configure_optimizers(self):
         optimizer = Adam(

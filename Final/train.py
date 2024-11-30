@@ -87,8 +87,7 @@ def train_model(action, train_folder):
     loss = 0
     for item in dataModule.train:
         item = item.unsqueeze(0)
-        print(f"item shape: {item.shape}")
-        loss += model.training_step(item, 0).item()
+        loss += model.predict_step(item, 0).item()
     loss /= len(dataModule.train)
 
     return loss
