@@ -1,8 +1,4 @@
 {
-  "train_bin_path": "./dataset/train-1",
-  "test_bin_path": "./dataset/test",
-  "validate_bin_path": "./dataset/val",
-
   "batch_size": 8,
   "context_length": 2048,
   "embedding_dimension": 512,
@@ -33,7 +29,7 @@
   "weight_decay": 0.1,
   "log_steps": 10,
   "gpu_cores": 1,
-  "precision": "32",
+  "precision": "bf16-mixed",
 
   "gradient_clip_val": 1,
   "devices": 1

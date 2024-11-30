@@ -7,7 +7,6 @@ import pytorch_lightning as pl
 from pytorch_lightning import Trainer
 from pytorch_lightning.strategies import DeepSpeedStrategy
 from pytorch_lightning.callbacks import LearningRateMonitor
-from pytorch_lightning.profilers import PyTorchProfiler
 from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.callbacks import ModelCheckpoint
 
@@ -41,13 +40,6 @@ def train_model(action, train_folder):
     start_time = measure_time()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     logger = TensorBoardLogger("logs/", name="transformer")
-    version = logger.version
-    profiler_log_dir = f"logs/profiler/version_{version}"
-    profiler = PyTorchProfiler(
-        on_trace_ready=torch.profiler.tensorboard_trace_handler(profiler_log_dir),
-        trace_memory=True,
-        export_to_chrome=True,
-    )
     if config.deepspeed is not None:
         strategy = DeepSpeedStrategy(config=config.deepspeed)
     else:
@@ -66,13 +58,11 @@ def train_model(action, train_folder):
         devices=config.train["gpu_cores"],
         max_epochs=config.train["max_epochs"],
         max_steps=config.train["max_iterations"],
-        # val_check_interval=config.train["eval_every"],
         min_epochs=config.train["min_epochs"],
         precision=config.train["precision"],
         log_every_n_steps=config.train["log_steps"],
         strategy=strategy,
         logger=logger,
-        # profiler=profiler,
         callbacks=[lr_monitor, checkpoint],
         gradient_clip_val=config.train["gradient_clip_val"],
     )
