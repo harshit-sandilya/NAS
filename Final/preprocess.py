@@ -12,7 +12,7 @@ class DataModule(pl.LightningDataModule):
         self.train_config = train_config
         self.preprocess_config = preprocess_config
 
-    def setup(self, random_float, stage: str = None):
+    def setup(self, random_float=0.5, stage: str = None):
         self.vocab_size = self.preprocess_config["vocab_size"]
         self.train = StreamingDataset(
             input_dir=self.train_config["train_bin_path"],
