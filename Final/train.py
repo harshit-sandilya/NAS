@@ -87,7 +87,6 @@ def train_model(action, train_folder):
     loss = 0
     for item in dataModule.train:
         item = item.to(device)
-        item = item.to(config.dtype)
         item = item.unsqueeze(0)
         print(f"item shape: {item.shape}")
         loss += model.training_step(item, 0).item()
