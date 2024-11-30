@@ -14,4 +14,4 @@ for j in range(4):
         dataModules[-1].setup()
         entries.append(len(dataModules[-1].train))
 
-print(train_model([1, 1], config, dataModules[0]))
+print(train_model([8, 8], config, dataModules[0]))
