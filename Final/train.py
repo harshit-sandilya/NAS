@@ -84,10 +84,6 @@ def train_model(action, train_folder):
     with torch.no_grad():
         torch.cuda.empty_cache()
 
-    loss = 0
-    for item in dataModule.train:
-        item = item.unsqueeze(0)
-        loss += model.predict_step(item).item()
-    loss /= len(dataModule.train)
+    loss = model.predict_step(dataModule.train[: len(dataModule.train)])
 
     return loss
