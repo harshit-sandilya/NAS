@@ -87,7 +87,7 @@ def train_model(action, train_folder):
     loss = 0
     for item in dataModule.train:
         item = item.unsqueeze(0)
-        loss += model.predict_step(item, 0).item()
+        loss += model.predict_step(item).item()
     loss /= len(dataModule.train)
 
     return loss
