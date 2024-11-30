@@ -73,7 +73,7 @@ def train_model(action, config, dataModule):
     print(f"[{measure_time(start_time)}]Model initialized on {trainer.global_rank}.")
 
     print(f"[{measure_time(start_time)}]Starting training on {trainer.global_rank}...")
-    trainer.fit(model, dataModule)
+    trainer.fit(model, datamodule=dataModule)
     print(f"[{measure_time(start_time)}]Training complete on {trainer.global_rank}.")
 
     with torch.no_grad():

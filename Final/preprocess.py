@@ -25,11 +25,35 @@ class DataModule(pl.LightningDataModule):
             shuffle=False,
             subsample=random_float,
         )
-        print(f"Number of samples in streaming dataset: {len(self.train)}")
+        self.val = self.train = StreamingDataset(
+            input_dir=self.train_config["train_bin_path"],
+            item_loader=TokensLoader(
+                block_size=self.train_config["context_length"] + 1
+            ),
+            shuffle=False,
+            subsample=0.1,
+        )
+        self.test = self.train
 
     def train_dataloader(self):
         return StreamingDataLoader(
             self.train,
+            batch_size=self.train_config["batch_size"],
+            pin_memory=True,
+            num_workers=4,
+        )
+
+    def val_dataloader(self):
+        return StreamingDataLoader(
+            self.val,
+            batch_size=self.train_config["batch_size"],
+            pin_memory=True,
+            num_workers=4,
+        )
+
+    def test_dataloader(self):
+        return StreamingDataLoader(
+            self.test,
             batch_size=self.train_config["batch_size"],
             pin_memory=True,
             num_workers=4,
