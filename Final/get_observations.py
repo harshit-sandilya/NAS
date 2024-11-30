@@ -1,4 +1,3 @@
-import numpy as np
 from train import train_model
 from config_reader import Config
 from preprocess import DataModule

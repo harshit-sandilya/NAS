@@ -72,6 +72,13 @@ def train_model(action, config, dataModule):
     trainer.fit(model, datamodule=dataModule)
     print(f"[{measure_time(start_time)}]Training complete on {trainer.global_rank}.")
 
+    print(f"[{measure_time(start_time)}]Starting testing on {trainer.global_rank}...")
+    trainer.test(model, datamodule=dataModule)
+    print(f"[{measure_time(start_time)}]Testing complete on {trainer.global_rank}.")
+
+    loss = trainer.logged_metrics
+    print(f"[{measure_time(start_time)}]Loss: {loss}")
+
     with torch.no_grad():
         torch.cuda.empty_cache()
 
