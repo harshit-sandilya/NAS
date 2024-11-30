@@ -4,6 +4,7 @@ from lightning.data import (
     StreamingDataLoader,
 )
 from litdata import TokensLoader
+import random
 
 
 class DataModule(pl.LightningDataModule):
@@ -21,6 +22,10 @@ class DataModule(pl.LightningDataModule):
             ),
             shuffle=False,
         )
+        max = len(self.train)
+        min = self.train_config["context_length"] + 1
+        rand = random.randint(min, max)
+        self.train = self.train[:rand]
 
     def train_dataloader(self):
         return StreamingDataLoader(
