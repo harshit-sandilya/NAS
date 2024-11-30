@@ -32,6 +32,9 @@ def train_model(action, config, dataModule):
     print("+++++++++++++++++CONFIG+++++++++++++++++")
     print(config.train)
     print(len(dataModule.train))
+    print(
+        f"Number of batches in train dataloader: {len(dataModule.train_dataloader())}"
+    )
     print("++++++++++++++++++++++++++++++++++++++++")
 
     start_time = measure_time()
