@@ -84,6 +84,6 @@ def train_model(action, train_folder):
     with torch.no_grad():
         torch.cuda.empty_cache()
 
-    loss = model.predict_step(dataModule.train[: len(dataModule.train)])
+    loss = model.predict_step(torch.stack(dataModule.train[: len(dataModule.train)]))
 
     return loss
