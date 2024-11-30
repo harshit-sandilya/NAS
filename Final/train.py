@@ -76,10 +76,10 @@ def train_model(action, config, dataModule):
     trainer.test(model, datamodule=dataModule)
     print(f"[{measure_time(start_time)}]Testing complete on {trainer.global_rank}.")
 
-    loss = trainer.logged_metrics
+    loss = trainer.logged_metrics["test_loss"].item()
     print(f"[{measure_time(start_time)}]Loss: {loss}")
 
     with torch.no_grad():
         torch.cuda.empty_cache()
 
-    return 0
+    return loss
