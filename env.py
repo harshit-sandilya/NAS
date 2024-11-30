@@ -35,7 +35,7 @@ class Environment(gym.Env):
         loss, time = train_model(action, self.config, self.dataLoaders[self.current])
         with torch.no_grad():
             torch.cuda.empty_cache()
-        reward = math.exp(5 - (loss / 2)) + math.exp(5 - (time * 5))
+        reward = math.exp(10 - loss) + math.exp(2 - ((time * 1000) / 6))
         print("REWARD ===> ", reward)
         print("LOSS ===> ", loss)
         return reward
