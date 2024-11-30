@@ -15,23 +15,14 @@ class DataModule(pl.LightningDataModule):
 
     def setup(self, stage: str = None):
         self.vocab_size = self.preprocess_config["vocab_size"]
+        random_float = random.uniform(0.1, 1.0)
         self.train = StreamingDataset(
             input_dir=self.train_config["train_bin_path"],
             item_loader=TokensLoader(
                 block_size=self.train_config["context_length"] + 1
             ),
             shuffle=False,
-        )
-        max = len(self.train)
-        min = self.train_config["context_length"] + 1
-        rand = random.randint(min, max)
-        self.train = StreamingDataset(
-            input_dir=self.train_config["train_bin_path"],
-            item_loader=TokensLoader(
-                block_size=self.train_config["context_length"] + 1
-            ),
-            shuffle=False,
-            max_samples=rand,
+            subsample=random_float,
         )
 
     def train_dataloader(self):
