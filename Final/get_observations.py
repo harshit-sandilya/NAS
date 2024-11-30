@@ -16,4 +16,4 @@ for file in train_file_list:
 
 print(entries)
 
-# train_model([4, 4], config, dataModules[0])
+train_model([4, 4], config, dataModules[0])
