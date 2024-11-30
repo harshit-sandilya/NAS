@@ -128,40 +128,40 @@ class Transformer(pl.LightningModule):
         self.log("loss", loss, prog_bar=True, sync_dist=True)
         return loss
 
-    def validation_step(self, batch, batch_idx):
-        x = batch[:, : self.contextLength]
-        y = batch[:, 1:].long()
-        output = self.forward(x)
-        loss = self.loss_fn(
-            output.reshape(output.shape[0] * output.shape[1], self.vocabSize), y
-        )
-        val_ppl = self.ppl(output, y)
-        dict_log = {
-            "val_loss": loss,
-            "val_ppl": val_ppl,
-        }
-        self.log_dict(dict_log, sync_dist=True)
-        return loss
+    # def validation_step(self, batch, batch_idx):
+    #     x = batch[:, : self.contextLength]
+    #     y = batch[:, 1:].long()
+    #     output = self.forward(x)
+    #     loss = self.loss_fn(
+    #         output.reshape(output.shape[0] * output.shape[1], self.vocabSize), y
+    #     )
+    #     val_ppl = self.ppl(output, y)
+    #     dict_log = {
+    #         "val_loss": loss,
+    #         "val_ppl": val_ppl,
+    #     }
+    #     self.log_dict(dict_log, sync_dist=True)
+    #     return loss
 
-    def test_step(self, batch, batch_idx):
-        x = batch[:, : self.contextLength]
-        y = batch[:, 1:].long()
-        output = self.forward(x)
-        loss = self.loss_fn(
-            output.reshape(output.shape[0] * output.shape[1], self.vocabSize), y
-        )
-        test_ppl = self.ppl(output, y)
-        dict_log = {
-            "test_loss": loss,
-            "test_ppl": test_ppl,
-        }
-        self.log_dict(dict_log, sync_dist=True)
-        return loss
+    # def test_step(self, batch, batch_idx):
+    #     x = batch[:, : self.contextLength]
+    #     y = batch[:, 1:].long()
+    #     output = self.forward(x)
+    #     loss = self.loss_fn(
+    #         output.reshape(output.shape[0] * output.shape[1], self.vocabSize), y
+    #     )
+    #     test_ppl = self.ppl(output, y)
+    #     dict_log = {
+    #         "test_loss": loss,
+    #         "test_ppl": test_ppl,
+    #     }
+    #     self.log_dict(dict_log, sync_dist=True)
+    #     return loss
 
-    def predict_step(self, x):
-        with torch.no_grad():
-            output = self.forward(x)
-        return output
+    # def predict_step(self, x):
+    #     with torch.no_grad():
+    #         output = self.forward(x)
+    #     return output
 
     def configure_optimizers(self):
         optimizer = Adam(
