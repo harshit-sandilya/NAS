@@ -16,6 +16,7 @@ class DataModule(pl.LightningDataModule):
     def setup(self, stage: str = None):
         self.vocab_size = self.preprocess_config["vocab_size"]
         random_float = random.uniform(0.1, 1.0)
+        print(f"Subsample fraction: {random_float}")
         self.train = StreamingDataset(
             input_dir=self.train_config["train_bin_path"],
             item_loader=TokensLoader(
@@ -24,6 +25,7 @@ class DataModule(pl.LightningDataModule):
             shuffle=False,
             subsample=random_float,
         )
+        print(f"Number of samples in streaming dataset: {len(self.train)}")
 
     def train_dataloader(self):
         return StreamingDataLoader(
