@@ -81,7 +81,7 @@ def train_model(action, train_folder):
     trainer.fit(model, dataModule)
     print(f"[{measure_time(start_time)}]Training complete on {trainer.global_rank}.")
 
-    loss = trainer.callback_metrics["val_loss"].item()
     with torch.no_grad():
         torch.cuda.empty_cache()
-    return loss
+
+    return 0
