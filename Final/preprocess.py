@@ -4,6 +4,7 @@ from lightning.data import (
     StreamingDataLoader,
 )
 from litdata import TokensLoader
+import random
 
 
 class DataModule(pl.LightningDataModule):
@@ -11,8 +12,9 @@ class DataModule(pl.LightningDataModule):
         super().__init__()
         self.train_config = train_config
         self.preprocess_config = preprocess_config
+        self.random_float = random.uniform(0.1, 1.0)
 
-    def setup(self, random_float=0.5, stage: str = None):
+    def setup(self, stage: str = None):
         self.vocab_size = self.preprocess_config["vocab_size"]
         self.train = StreamingDataset(
             input_dir=self.train_config["train_bin_path"],
@@ -20,7 +22,7 @@ class DataModule(pl.LightningDataModule):
                 block_size=self.train_config["context_length"] + 1
             ),
             shuffle=False,
-            subsample=random_float,
+            subsample=self.random_float,
         )
         self.val = StreamingDataset(
             input_dir=self.train_config["train_bin_path"],
