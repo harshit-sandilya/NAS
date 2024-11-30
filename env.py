@@ -3,6 +3,7 @@ from gymnasium import spaces
 import numpy as np
 from train import train_model
 import torch
+import math
 
 
 class Environment(gym.Env):
@@ -31,10 +32,10 @@ class Environment(gym.Env):
         print("NO OF HEADS ===> ", int(action[1]))
         print("NO OF LAYERS ===> ", int(action[0]))
         print("SAMPLE SIZE ===> ", self.sample_sizes[self.current])
-        loss = train_model(action, self.config, self.dataLoaders[self.current])
+        loss, time = train_model(action, self.config, self.dataLoaders[self.current])
         with torch.no_grad():
             torch.cuda.empty_cache()
-        reward = 200 - loss * 10 - action[0] - action[1]
+        reward = math.exp(5 - (loss / 2)) + math.exp(5 - (time * 5))
         print("REWARD ===> ", reward)
         print("LOSS ===> ", loss)
         return reward

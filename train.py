@@ -73,12 +73,15 @@ def train_model(action, config, dataModule):
     print(f"[{measure_time(start_time)}]Training complete on {trainer.global_rank}.")
 
     print(f"[{measure_time(start_time)}]Starting testing on {trainer.global_rank}...")
+    t1 = time.time()
     trainer.test(model, datamodule=dataModule)
+    t2 = time.time()
     print(f"[{measure_time(start_time)}]Testing complete on {trainer.global_rank}.")
 
     loss = trainer.logged_metrics["test_loss"].item()
+    time_taken_per_sample = (t2 - t1) / len(dataModule.test)
 
     with torch.no_grad():
         torch.cuda.empty_cache()
 
-    return loss
+    return loss, time_taken_per_sample
