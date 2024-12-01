@@ -31,7 +31,7 @@ def train_model(action, config, dataModule):
 
     print("+++++++++++++++++CONFIG+++++++++++++++++")
     print(config.train)
-    print(config.deepseed)
+    print(config.deepspeed)
     print("++++++++++++++++++++++++++++++++++++++++")
 
     start_time = measure_time()
