@@ -64,7 +64,7 @@ if latest_checkpoint:
     print(f"Loaded model from {latest_checkpoint}")
 
 model.learn(
-    total_timesteps=20000 - last_step,
+    total_timesteps=5000 - last_step,
     callback=[TensorboardCallback(), checkpoint_callback],
 )
 model.save("ppo_transformer")
