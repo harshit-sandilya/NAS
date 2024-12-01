@@ -42,7 +42,7 @@ class TensorboardCallback(BaseCallback):
 
 
 checkpoint_callback = CheckpointCallback(
-    save_freq=1,
+    save_freq=10,
     save_path="./logs/",
     name_prefix="ppo_nas",
     save_replay_buffer=True,
