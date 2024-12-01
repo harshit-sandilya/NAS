@@ -4,10 +4,13 @@ import numpy as np
 from train import train_model
 import torch
 import math
+import os
 
-rewards = []
-rewards = torch.load("rewards.pt")
-rewards = rewards.tolist()
+if os.path.exists("rewards.pt"):
+    rewards = torch.load("rewards.pt")
+    rewards = rewards.tolist()
+else:
+    rewards = []
 
 
 class Environment(gym.Env):
