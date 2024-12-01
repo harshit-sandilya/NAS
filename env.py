@@ -6,6 +6,8 @@ import torch
 import math
 
 rewards = []
+rewards = torch.load("rewards.pt")
+rewards = rewards.tolist()
 
 
 class Environment(gym.Env):
