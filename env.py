@@ -12,7 +12,7 @@ class Environment(gym.Env):
     def __init__(self, dataLoaders, sample_sizes, config):
         super(Environment, self).__init__()
         self.observation_space = spaces.Discrete(10000, start=1)
-        self.action_space = spaces.Box(low=1, high=8, shape=(2,), dtype=int)
+        self.action_space = spaces.MultiDiscrete([8, 8])
         self.dataLoaders = dataLoaders
         self.sample_sizes = sample_sizes
         self.config = config
@@ -31,8 +31,8 @@ class Environment(gym.Env):
         return self.sample_sizes[self.current], reward, done, False, info
 
     def calc_reward(self, action, chunk=None):
-        print("NO OF HEADS ===> ", int(action[1]))
-        print("NO OF LAYERS ===> ", int(action[0]))
+        print("NO OF HEADS ===> ", int(action[1] + 1))
+        print("NO OF LAYERS ===> ", int(action[0] + 1))
         print("SAMPLE SIZE ===> ", self.sample_sizes[self.current])
         loss, time = train_model(action, self.config, self.dataLoaders[self.current])
         with torch.no_grad():

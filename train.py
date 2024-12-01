@@ -25,8 +25,8 @@ def train_model(action, config, dataModule):
     torch.set_float32_matmul_precision("high")
     lr_monitor = LearningRateMonitor(logging_interval="step")
 
-    config.train["num_heads"] = int(action[1])
-    config.train["num_layers"] = int(action[0])
+    config.train["num_heads"] = int(action[1] + 1)
+    config.train["num_layers"] = int(action[0] + 1)
     config.train["embedding_dimension"] = config.train["num_heads"] * 64
 
     print("+++++++++++++++++CONFIG+++++++++++++++++")

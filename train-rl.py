@@ -1,9 +1,8 @@
-from stable_baselines3 import DDPG
+from stable_baselines3 import PPO
 from env import Environment
 from config_reader import Config
 from preprocess import DataModule
 from stable_baselines3.common.callbacks import BaseCallback, CheckpointCallback
-from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
 
 config = Config()
 train_file_list = [f"dataset/train-{i}" for i in range(1, 51)]
@@ -30,16 +29,14 @@ class TensorboardCallback(BaseCallback):
 checkpoint_callback = CheckpointCallback(
     save_freq=1,
     save_path="./logs/",
-    name_prefix="ddpg_nas",
+    name_prefix="ppo_nas",
     save_replay_buffer=True,
     save_vecnormalize=True,
 )
 
 env = Environment(dataModules, entries, config)
-env = DummyVecEnv([lambda: env])
-env = VecNormalize(env, norm_obs=True, norm_reward=True, clip_obs=10.0)
-model = DDPG("MlpPolicy", env, verbose=1, tensorboard_log="logs/ddpg")
+model = PPO("MlpPolicy", env, verbose=1, tensorboard_log="logs/ppo")
 model.learn(
     total_timesteps=20000, callback=[TensorboardCallback(), checkpoint_callback]
 )
-model.save("ddpg_transformer")
+model.save("ppo_transformer")
