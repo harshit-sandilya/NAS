@@ -11,6 +11,8 @@ train_file_list = [f"dataset/train-{i}" for i in range(1, 51)]
 
 
 def get_latest_checkpoint(log_dir):
+    if not os.path.exists(log_dir):
+        return None
     checkpoint_files = [
         f for f in os.listdir(log_dir) if re.match(r"ppo_nas_\d+_steps\.zip", f)
     ]
