@@ -2,6 +2,7 @@ import torch
 import time
 from model import Transformer
 import pytorch_lightning as pl
+from config_reader import Config
 from pytorch_lightning import Trainer
 from pytorch_lightning.strategies import DeepSpeedStrategy
 from pytorch_lightning.callbacks import LearningRateMonitor
@@ -21,9 +22,10 @@ def measure_time(start_time=None):
     return f"{int(hours):02d}:{int(minutes):02d}:{int(seconds):02d}"
 
 
-def train_model(action, config, dataModule):
+def train_model(action, dataModule):
     torch.set_float32_matmul_precision("high")
     lr_monitor = LearningRateMonitor(logging_interval="step")
+    config = Config()
 
     config.train["num_heads"] = int(action[1] + 1)
     config.train["num_layers"] = int(action[0] + 1)
