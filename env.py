@@ -11,7 +11,7 @@ rewards = rewards.tolist()
 
 
 class Environment(gym.Env):
-    def __init__(self, dataLoaders, sample_sizes, config):
+    def __init__(self, dataLoaders, sample_sizes, config, last_step=0):
         super(Environment, self).__init__()
         self.observation_space = spaces.Discrete(10000, start=1)
         self.action_space = spaces.MultiDiscrete([8, 8])
@@ -19,11 +19,13 @@ class Environment(gym.Env):
         self.sample_sizes = sample_sizes
         self.config = config
         self.current = 0
+        self.last_step = last_step
 
     def reset(self, seed=None):
         super().reset(seed=seed)
-        self.current = 0
-        return self.sample_sizes[0], {}
+        self.current = self.last_step % len(self.dataLoaders)
+        self.last_step = 0
+        return self.sample_sizes[self.current], {}
 
     def step(self, action):
         reward = self.calc_reward(action)

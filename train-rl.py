@@ -9,6 +9,19 @@ import re
 config = Config()
 train_file_list = [f"dataset/train-{i}" for i in range(1, 51)]
 
+
+def get_latest_checkpoint(log_dir):
+    checkpoint_files = [
+        f for f in os.listdir(log_dir) if re.match(r"ppo_nas_\d+_steps\.zip", f)
+    ]
+    if not checkpoint_files:
+        return None
+    latest_checkpoint = max(
+        checkpoint_files, key=lambda f: int(re.findall(r"\d+", f)[0])
+    )
+    return os.path.join(log_dir, latest_checkpoint)
+
+
 dataModules = []
 entries = []
 for j in range(4):
@@ -35,28 +48,21 @@ checkpoint_callback = CheckpointCallback(
     save_replay_buffer=True,
 )
 
-env = Environment(dataModules, entries, config)
+latest_checkpoint = get_latest_checkpoint("./logs/")
+last_step = (
+    int(re.findall(r"\d+", os.path.basename(latest_checkpoint))[0])
+    if latest_checkpoint
+    else 0
+)
+env = Environment(dataModules, entries, config, last_step)
 model = PPO("MlpPolicy", env, verbose=1, tensorboard_log="logs/ppo")
 
-
-def get_latest_checkpoint(log_dir):
-    checkpoint_files = [
-        f for f in os.listdir(log_dir) if re.match(r"ppo_nas_\d+_steps\.zip", f)
-    ]
-    if not checkpoint_files:
-        return None
-    latest_checkpoint = max(
-        checkpoint_files, key=lambda f: int(re.findall(r"\d+", f)[0])
-    )
-    return os.path.join(log_dir, latest_checkpoint)
-
-
-latest_checkpoint = get_latest_checkpoint("./logs/")
 if latest_checkpoint:
     model.load(latest_checkpoint)
     print(f"Loaded model from {latest_checkpoint}")
 
 model.learn(
-    total_timesteps=20000, callback=[TensorboardCallback(), checkpoint_callback]
+    total_timesteps=20000 - last_step,
+    callback=[TensorboardCallback(), checkpoint_callback],
 )
 model.save("ppo_transformer")
