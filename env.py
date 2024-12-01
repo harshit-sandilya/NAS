@@ -39,8 +39,8 @@ class Environment(gym.Env):
             torch.cuda.empty_cache()
         reward = math.exp(10 - loss) + math.exp(2 - ((time * 1000) / 6))
         rewards.append(reward)
-        rewards = torch.tensor(rewards)
-        torch.save(rewards, "rewards.pt")
+        rewards_tensor = torch.tensor(rewards)
+        torch.save(rewards_tensor, "rewards.pt")
         print("REWARD ===> ", reward)
         print("LOSS ===> ", loss)
         return reward
