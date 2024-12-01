@@ -5,6 +5,8 @@ from train import train_model
 import torch
 import math
 
+rewards = []
+
 
 class Environment(gym.Env):
     def __init__(self, dataLoaders, sample_sizes, config):
@@ -36,6 +38,9 @@ class Environment(gym.Env):
         with torch.no_grad():
             torch.cuda.empty_cache()
         reward = math.exp(10 - loss) + math.exp(2 - ((time * 1000) / 6))
+        rewards.append(reward)
+        rewards = torch.tensor(rewards)
+        torch.save(rewards, "rewards.pt")
         print("REWARD ===> ", reward)
         print("LOSS ===> ", loss)
         return reward
