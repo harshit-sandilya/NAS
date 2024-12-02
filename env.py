@@ -25,6 +25,7 @@ class Environment(gym.Env):
         self.last_step = last_step
 
     def reset(self, seed=None):
+        global rewards
         super().reset(seed=seed)
         self.current = self.last_step % len(self.dataLoaders)
         rewards = rewards[: self.last_step]
