@@ -27,6 +27,7 @@ class Environment(gym.Env):
     def reset(self, seed=None):
         super().reset(seed=seed)
         self.current = self.last_step % len(self.dataLoaders)
+        rewards = rewards[: self.last_step]
         self.last_step = 0
         return self.sample_sizes[self.current], {}
 
@@ -38,9 +39,6 @@ class Environment(gym.Env):
         return self.sample_sizes[self.current], reward, done, False, info
 
     def calc_reward(self, action):
-        print("NO OF HEADS ===> ", int(action[1] + 1))
-        print("NO OF LAYERS ===> ", int(action[0] + 1))
-        print("SAMPLE SIZE ===> ", self.sample_sizes[self.current])
         loss, time = train_model(action, self.dataLoaders[self.current])
         with torch.no_grad():
             torch.cuda.empty_cache()
@@ -48,6 +46,13 @@ class Environment(gym.Env):
         rewards.append(reward)
         rewards_tensor = torch.tensor(rewards)
         torch.save(rewards_tensor, "rewards.pt")
+        print("=====================================")
+        print("STEP ===> ", self.current)
+        print("NO OF HEADS ===> ", int(action[1] + 1))
+        print("NO OF LAYERS ===> ", int(action[0] + 1))
+        print("SAMPLE SIZE ===> ", self.sample_sizes[self.current])
         print("REWARD ===> ", reward)
         print("LOSS ===> ", loss)
+        print("TIME ===> ", time)
+        print("=====================================")
         return reward
