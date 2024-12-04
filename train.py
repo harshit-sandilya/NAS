@@ -82,9 +82,10 @@ def train_model(action, dataModule):
     print(f"[{measure_time(start_time)}]Testing complete on {trainer.global_rank}.")
 
     loss = trainer.logged_metrics["test_loss"].item()
+    perplexity = trainer.logged_metrics["test_ppl"].item()
     time_taken_per_sample = (t2 - t1) / len(dataModule.test)
 
     with torch.no_grad():
         torch.cuda.empty_cache()
 
-    return loss, time_taken_per_sample
+    return loss, perplexity, time_taken_per_sample

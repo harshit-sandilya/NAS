@@ -26,12 +26,11 @@ def get_latest_checkpoint(log_dir):
 
 dataModules = []
 entries = []
-for j in range(4):
-    for file in train_file_list:
-        config.train["train_bin_path"] = file
-        dataModules.append(DataModule(config.train, config.preprocess))
-        dataModules[-1].setup()
-        entries.append(len(dataModules[-1].train))
+for file in train_file_list:
+    config.train["train_bin_path"] = file
+    dataModules.append(DataModule(config.train, config.preprocess))
+    dataModules[-1].setup()
+    entries.append(len(dataModules[-1].train))
 
 
 class TensorboardCallback(BaseCallback):
@@ -56,7 +55,7 @@ last_step = (
     if latest_checkpoint
     else 0
 )
-env = Environment(dataModules, entries, config, last_step)
+env = Environment(dataModules, entries, config)
 model = PPO("MlpPolicy", env, verbose=1, tensorboard_log="logs/ppo")
 
 if latest_checkpoint:
@@ -64,7 +63,7 @@ if latest_checkpoint:
     print(f"Loaded model from {latest_checkpoint}")
 
 model.learn(
-    total_timesteps=5000 - last_step,
+    total_timesteps=50,
     callback=[TensorboardCallback(), checkpoint_callback],
 )
 model.save("ppo_transformer")

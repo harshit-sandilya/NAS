@@ -40,10 +40,14 @@ class Environment(gym.Env):
         return self.sample_sizes[self.current], reward, done, False, info
 
     def calc_reward(self, action):
-        loss, time = train_model(action, self.dataLoaders[self.current])
+        loss, ppl, time = train_model(action, self.dataLoaders[self.current])
         with torch.no_grad():
             torch.cuda.empty_cache()
-        reward = math.exp(10 - loss) + math.exp(2 - ((time * 1000) / 6))
+        reward = (
+            math.exp(10 - loss)
+            + math.exp(2 - ((time * 1000) / 6))
+            + (10000 / (ppl + 1))
+        )
         rewards.append(reward)
         rewards_tensor = torch.tensor(rewards)
         torch.save(rewards_tensor, "rewards.pt")
@@ -54,6 +58,7 @@ class Environment(gym.Env):
         print("SAMPLE SIZE ===> ", self.sample_sizes[self.current])
         print("REWARD ===> ", reward)
         print("LOSS ===> ", loss)
+        print("PPL ===> ", ppl)
         print("TIME ===> ", time)
         print("=====================================")
         return reward
