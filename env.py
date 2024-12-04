@@ -27,9 +27,10 @@ class Environment(gym.Env):
     def reset(self, seed=None):
         global rewards
         super().reset(seed=seed)
-        self.current = self.last_step % len(self.dataLoaders)
-        rewards = rewards[: self.last_step]
-        self.last_step = 0
+        # self.current = self.last_step % len(self.dataLoaders)
+        # rewards = rewards[: self.last_step]
+        # self.last_step = 0
+        self.current = 0
         return self.sample_sizes[self.current], {}
 
     def step(self, action):
