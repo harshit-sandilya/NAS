@@ -36,7 +36,7 @@ checkpoint_callback = CheckpointCallback(
 )
 
 env = Environment(dataModules, entries, config)
-model = DQN("MlPPolicy", env, verbose=1, tensorboard_log="logs/dqn", gamma=0.75)
+model = DQN("MlpPolicy", env, verbose=1, tensorboard_log="logs/dqn", gamma=0.75)
 
 if os.path.exists("dqn_transformer.zip"):
     model = DQN.load("dqn_transformer", env=env)
