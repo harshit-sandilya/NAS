@@ -1,17 +1,26 @@
+from train import train_model
 from config_reader import Config
 from preprocess import DataModule
-from train import train_model
+import math
 
 config = Config()
-train_file_list = [f"dataset/train-{i}" for i in range(1, 51)]
+config.train["train_bin_path"] = "dataset/train-1"
+dataModule = DataModule(config.train, config.preprocess)
+dataModule.setup()
 
-dataModules = []
-entries = []
-for j in range(4):
-    for file in train_file_list:
-        config.train["train_bin_path"] = file
-        dataModules.append(DataModule(config.train, config.preprocess))
-        dataModules[-1].setup()
-        entries.append(len(dataModules[-1].train))
-
-print(train_model([8, 8], config, dataModules[0]))
+for i in range(8):
+    for j in range(8):
+        loss, ppl, time = train_model([i, j], dataModule.train)
+        print("=====================================")
+        print("NO OF HEADS ===> ", j + 1)
+        print("NO OF LAYERS ===> ", i + 1)
+        print(
+            "REWARD ===> ",
+            math.exp(10 - loss)
+            + math.exp(2 - ((time * 1000) / 6))
+            + (10000 / (ppl + 1)),
+        )
+        print("LOSS ===> ", loss)
+        print("PPL ===> ", ppl)
+        print("TIME ===> ", time)
+        print("=====================================")

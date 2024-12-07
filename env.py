@@ -25,11 +25,7 @@ class Environment(gym.Env):
         self.last_step = last_step
 
     def reset(self, seed=None):
-        global rewards
         super().reset(seed=seed)
-        # self.current = self.last_step % len(self.dataLoaders)
-        # rewards = rewards[: self.last_step]
-        # self.last_step = 0
         self.current = 0
         return self.sample_sizes[self.current], {}
 
@@ -48,7 +44,7 @@ class Environment(gym.Env):
             math.exp(10 - loss)
             + math.exp(2 - ((time * 1000) / 6))
             + (10000 / (ppl + 1))
-        )
+        )  # regularization concept
         rewards.append(reward)
         rewards_tensor = torch.tensor(rewards)
         torch.save(rewards_tensor, "rewards.pt")
@@ -61,5 +57,9 @@ class Environment(gym.Env):
         print("LOSS ===> ", loss)
         print("PPL ===> ", ppl)
         print("TIME ===> ", time)
+        print(
+            "VALUE FUNCTION ===> ",
+        )
+        # Value function
         print("=====================================")
         return reward
