@@ -17,7 +17,8 @@ class Environment(gym.Env):
     def __init__(self, dataLoaders, sample_sizes, config, last_step=0):
         super(Environment, self).__init__()
         self.observation_space = spaces.Discrete(10000, start=1)
-        self.action_space = spaces.MultiDiscrete([8, 8])
+        self.action_space = spaces.Discrete(64, start=1)
+        self.dict = [(i, j) for i in range(1, 9) for j in range(1, 9)]
         self.dataLoaders = dataLoaders
         self.sample_sizes = sample_sizes
         self.config = config
@@ -40,7 +41,7 @@ class Environment(gym.Env):
         return self.sample_sizes[self.current], reward, done, False, info
 
     def calc_reward(self, action):
-        loss, ppl, time = train_model(action, self.dataLoaders[self.current])
+        loss, ppl, time = train_model(self.dict[action], self.dataLoaders[self.current])
         with torch.no_grad():
             torch.cuda.empty_cache()
         reward_loss = math.exp(10 - loss)
@@ -59,8 +60,8 @@ class Environment(gym.Env):
         torch.save(rewards_tensor, "rewards.pt")
         print("=====================================")
         print("STEP ===> ", self.current)
-        print("NO OF HEADS ===> ", int(action[1] + 1))
-        print("NO OF LAYERS ===> ", int(action[0] + 1))
+        print("NO OF HEADS ===> ", int(self.dict[action][1] + 1))
+        print("NO OF LAYERS ===> ", int(self.dict[action][0] + 1))
         print("SAMPLE SIZE ===> ", self.sample_sizes[self.current])
         print("REWARD ===> ", total_reward)
         print("LOSS ===> ", loss)

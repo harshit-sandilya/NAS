@@ -12,8 +12,7 @@ class DataModule(pl.LightningDataModule):
         super().__init__()
         self.train_config = train_config
         self.preprocess_config = preprocess_config
-        # self.random_float = random.uniform(0.1, 1.0)
-        self.random_float = 0.6
+        self.random_float = random.uniform(0.1, 1.0)
 
     def setup(self, stage: str = None):
         self.vocab_size = self.preprocess_config["vocab_size"]

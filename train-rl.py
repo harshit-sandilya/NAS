@@ -1,4 +1,4 @@
-from stable_baselines3 import PPO
+from stable_baselines3 import DQN
 from env import Environment
 from config_reader import Config
 from preprocess import DataModule
@@ -31,19 +31,19 @@ class TensorboardCallback(BaseCallback):
 checkpoint_callback = CheckpointCallback(
     save_freq=10,
     save_path="./logs/",
-    name_prefix="ppo_nas",
+    name_prefix="dqn_nas",
     save_replay_buffer=True,
 )
 
 env = Environment(dataModules, entries, config)
-model = PPO("MlpPolicy", env, verbose=1, tensorboard_log="logs/ppo", gamma=0.75)
+model = DQN("MlPPolicy", env, verbose=1, tensorboard_log="logs/dqn", gamma=0.75)
 
-if os.path.exists("ppo_transformer.zip"):
-    model = PPO.load("ppo_transformer", env=env)
+if os.path.exists("dqn_transformer.zip"):
+    model = DQN.load("dqn_transformer", env=env)
 
 model.learn(
     total_timesteps=50,
     callback=[TensorboardCallback(), checkpoint_callback],
 )
 
-model.save("ppo_transformer")
+model.save("dqn_transformer")
