@@ -10,7 +10,7 @@ dataModule.setup()
 
 for i in range(8):
     for j in range(8):
-        loss, ppl, time = train_model([i, j], dataModule.train)
+        loss, ppl, time = train_model([i, j], dataModule)
         print("=====================================")
         print("SAMPLE SIZE ===> ", len(dataModule.train))
         print("NO OF HEADS ===> ", j + 1)
