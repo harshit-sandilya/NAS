@@ -12,6 +12,7 @@ for i in range(8):
     for j in range(8):
         loss, ppl, time = train_model([i, j], dataModule.train)
         print("=====================================")
+        print("SAMPLE SIZE ===> ", len(dataModule.train))
         print("NO OF HEADS ===> ", j + 1)
         print("NO OF LAYERS ===> ", i + 1)
         print(
