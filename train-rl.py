@@ -36,7 +36,7 @@ checkpoint_callback = CheckpointCallback(
 )
 
 env = Environment(dataModules, entries, config)
-model = PPO("MlpPolicy", env, verbose=1, tensorboard_log="logs/ppo")
+model = PPO("MlpPolicy", env, verbose=1, tensorboard_log="logs/ppo", gamma=0.75)
 
 if os.path.exists("ppo_transformer.zip"):
     model = PPO.load("ppo_transformer", env=env)

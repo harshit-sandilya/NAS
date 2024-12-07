@@ -22,15 +22,17 @@ class Environment(gym.Env):
         self.sample_sizes = sample_sizes
         self.config = config
         self.current = 0
-        self.last_step = last_step
+        self.value = 0
 
     def reset(self, seed=None):
         super().reset(seed=seed)
         self.current = 0
+        self.value = 0
         return self.sample_sizes[self.current], {}
 
     def step(self, action):
         reward = self.calc_reward(action)
+        self.value = reward + 0.75 * self.value
         self.current += 1
         done = self.current == len(self.dataLoaders) - 1
         info = {}
@@ -57,9 +59,6 @@ class Environment(gym.Env):
         print("LOSS ===> ", loss)
         print("PPL ===> ", ppl)
         print("TIME ===> ", time)
-        print(
-            "VALUE FUNCTION ===> ",
-        )
-        # Value function
+        print("VALUE FUNCTION ===> ", self.value)
         print("=====================================")
         return reward
