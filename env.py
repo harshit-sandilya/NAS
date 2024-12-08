@@ -17,7 +17,7 @@ class Environment(gym.Env):
     def __init__(self, dataLoaders, sample_sizes, config, last_step=0):
         super(Environment, self).__init__()
         self.observation_space = spaces.Discrete(10000, start=1)
-        self.action_space = spaces.Discrete(64, start=1)
+        self.action_space = spaces.Discrete(64)
         self.dict = [(i, j) for i in range(1, 9) for j in range(1, 9)]
         self.dataLoaders = dataLoaders
         self.sample_sizes = sample_sizes
