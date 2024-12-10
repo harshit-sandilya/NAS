@@ -42,7 +42,7 @@ if os.path.exists("dqn_transformer.zip"):
     model = DQN.load("dqn_transformer", env=env)
 
 model.learn(
-    total_timesteps=50,
+    total_timesteps=30,
     callback=[TensorboardCallback(), checkpoint_callback],
 )
 
