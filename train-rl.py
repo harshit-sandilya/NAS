@@ -52,8 +52,9 @@ checkpoint_callback = CheckpointCallback(
 
 env = Environment(dataModules, entries, config)
 model = DQN("MlpPolicy", env, verbose=1, tensorboard_log="logs/dqn", gamma=0.75)
-model = model.load("logs/dqn_nas_25_steps.zip", env=env)
-model.load_replay_buffer("logs/dqn_nas_replay_buffer_25_steps.pkl")
+if os.path.exists("logs/dqn_nas_25_steps.zip"):
+    model = model.load("logs/dqn_nas_25_steps.zip", env=env)
+    model.load_replay_buffer("logs/dqn_nas_replay_buffer_25_steps.pkl")
 
 model.learn(
     total_timesteps=25,
