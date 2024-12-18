@@ -20,9 +20,9 @@ args = parser.parse_args()
 
 config = Config()
 if args.mode == 1:
-    train_file_list = [f"dataset/train-{i}" for i in range(1, 31)]
+    train_file_list = [f"dataset/train-{i}" for i in range(1, 26)]
 elif args.mode == 2:
-    train_file_list = [f"dataset/train-{i}" for i in range(31, 61)]
+    train_file_list = [f"dataset/train-{i}" for i in range(26, 51)]
 
 
 dataModules = []
@@ -58,7 +58,7 @@ if os.path.exists("dqn_transformer.zip"):
 
 
 model.learn(
-    total_timesteps=30,
+    total_timesteps=25,
     callback=[TensorboardCallback(), checkpoint_callback],
 )
 
