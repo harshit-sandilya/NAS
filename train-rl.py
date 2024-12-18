@@ -44,7 +44,7 @@ class TensorboardCallback(BaseCallback):
 
 
 checkpoint_callback = CheckpointCallback(
-    save_freq=10,
+    save_freq=25,
     save_path="./logs/",
     name_prefix="dqn_nas",
     save_replay_buffer=True,
