@@ -4,7 +4,6 @@ from config_reader import Config
 from preprocess import DataModule
 from stable_baselines3.common.callbacks import BaseCallback, CheckpointCallback
 import os
-import re
 import argparse
 
 parser = argparse.ArgumentParser(description="Train a reinforcement learning model.")
@@ -51,7 +50,7 @@ checkpoint_callback = CheckpointCallback(
 )
 
 env = Environment(dataModules, entries, config)
-model = DQN("MlpPolicy", env, verbose=1, tensorboard_log="logs/dqn", gamma=0.75)
+model = DQN("MlpPolicy", env, tensorboard_log="logs/dqn", gamma=0.1)
 if os.path.exists("logs/dqn_nas_25_steps.zip"):
     model = model.load("logs/dqn_nas_25_steps.zip", env=env)
     model.load_replay_buffer("logs/dqn_nas_replay_buffer_25_steps.pkl")
