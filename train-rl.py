@@ -1,4 +1,5 @@
 from stable_baselines3 import DQN
+from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
 from env import Environment
 from config_reader import Config
 from preprocess import DataModule
@@ -22,7 +23,6 @@ if args.mode == 1:
     train_file_list = [f"dataset/train-{i}" for i in range(1, 26)]
 elif args.mode == 2:
     train_file_list = [f"dataset/train-{i}" for i in range(26, 51)]
-
 
 dataModules = []
 entries = []
@@ -49,7 +49,17 @@ checkpoint_callback = CheckpointCallback(
     save_replay_buffer=True,
 )
 
-env = Environment(dataModules, entries, config)
+
+def make_env():
+    return Environment(dataModules, entries, config)
+
+
+env = DummyVecEnv([make_env])
+env = VecNormalize(env, norm_reward=True)
+
+if os.path.exists("vec_normalize.pkl"):
+    env = env.load("vec_normalize.pkl")
+
 model = DQN("MlpPolicy", env, tensorboard_log="logs/dqn", gamma=0.1)
 if os.path.exists("logs/dqn_nas_25_steps.zip"):
     model = model.load("logs/dqn_nas_25_steps.zip", env=env)
@@ -61,3 +71,4 @@ model.learn(
 )
 
 model.save("dqn_transformer")
+env.save("vec_normalize.pkl")
