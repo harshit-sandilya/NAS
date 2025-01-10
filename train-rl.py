@@ -58,7 +58,7 @@ env = DummyVecEnv([make_env])
 env = VecNormalize(env, norm_reward=True)
 
 if os.path.exists("vec_normalize.pkl"):
-    env = env.load("vec_normalize.pkl")
+    env = env.load("vec_normalize.pkl", env)
 
 model = DQN("MlpPolicy", env, tensorboard_log="logs/dqn", gamma=0.1)
 if os.path.exists("logs/dqn_nas_25_steps.zip"):
